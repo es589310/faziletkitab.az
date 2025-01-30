@@ -1,0 +1,12 @@
+services:
+  postgresql:
+    image: postgres:16
+    container_name: image_service
+    ports:
+      - "5435:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 232323
+      POSTGRES_DB: image-service-f
+    volumes:
+      - ./order-data:/var/lib/postgresql/data
