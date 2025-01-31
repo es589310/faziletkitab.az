@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 @Slf4j
 public class ImageService {
     private final ImageRepository imageRepository;
-    private final String uploadDirectory = "/home/mrdoc/IdeaProjects/faziletkitab.az/imageUpload";
+    private final String uploadDirectory = "/home/mrdoc/IdeaProjects/faziletkitab.az/upload-image";
 
     public Image uploadImage(Long bookId, MultipartFile imageFile) throws IOException {
         String fileName = imageFile.getOriginalFilename(); //şəklin adını aldım
