@@ -19,7 +19,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> catalogServiceRoute() {
         return GatewayRouterFunctions.route("catalog-service")
-                .route(RequestPredicates.path("/api/catalog"), HandlerFunctions.http("https://localhost:8080"))
+                .route(RequestPredicates.path("/api/catalog"), HandlerFunctions.http("http://localhost:8080"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .build();
@@ -28,7 +28,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> catalogServiceSwaggerRoute() {
         return GatewayRouterFunctions.route("catalog-service-swagger")
-                .route(RequestPredicates.path("/aggregate/catalog-service/v3/api-docs"), HandlerFunctions.http("https://localhost:8080"))
+                .route(RequestPredicates.path("/aggregate/catalog-service/v3/api-docs"), HandlerFunctions.http("http://localhost:8080"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("catalogServiceSwaggerCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .filter(setPath("api-docs"))
@@ -38,7 +38,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> authorServiceRoute() {
         return GatewayRouterFunctions.route("author-service")
-                .route(RequestPredicates.path("/api/authors"), HandlerFunctions.http("https://localhost:8084"))
+                .route(RequestPredicates.path("/api/authors"), HandlerFunctions.http("http://localhost:8084"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("authorServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .build();
@@ -47,7 +47,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> authorServiceSwaggerRoute() {
         return GatewayRouterFunctions.route("author-service-swagger")
-                .route(RequestPredicates.path("/aggregate/author-service/v3/api-docs"), HandlerFunctions.http("https://localhost:8084"))
+                .route(RequestPredicates.path("/aggregate/author-service/v3/api-docs"), HandlerFunctions.http("http://localhost:8084"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("authorServiceSwaggerCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .filter(setPath("api-docs"))
@@ -57,7 +57,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> categoryServiceRoute() {
         return GatewayRouterFunctions.route("category-service")
-                .route(RequestPredicates.path("/api/categories"), HandlerFunctions.http("https://localhost:8083"))
+                .route(RequestPredicates.path("/api/categories"), HandlerFunctions.http("http://localhost:8083"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("categoryServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .build();
@@ -66,7 +66,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> categoryServiceSwaggerRoute() {
         return GatewayRouterFunctions.route("category-service-swagger")
-                .route(RequestPredicates.path("/aggregate/category-service/v3/api-docs"), HandlerFunctions.http("https://localhost:8083"))
+                .route(RequestPredicates.path("/aggregate/category-service/v3/api-docs"), HandlerFunctions.http("http://localhost:8083"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("categoryServiceSwaggerCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .filter(setPath("api-docs"))
@@ -76,7 +76,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> imageServiceRoute() {
         return GatewayRouterFunctions.route("image-service")
-                .route(RequestPredicates.path("/api/images"), HandlerFunctions.http("https://localhost:8082"))
+                .route(RequestPredicates.path("/api/images"), HandlerFunctions.http("http://localhost:8082"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("imageServiceCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .build();
@@ -85,7 +85,7 @@ public class Routes {
     @Bean
     public RouterFunction<ServerResponse> imageServiceSwaggerRoute() {
         return GatewayRouterFunctions.route("image-service-swagger")
-                .route(RequestPredicates.path("/aggregate/image-service/v3/api-docs"), HandlerFunctions.http("https://localhost:8082"))
+                .route(RequestPredicates.path("/aggregate/image-service/v3/api-docs"), HandlerFunctions.http("http://localhost:8082"))
                 .filter(CircuitBreakerFilterFunctions.circuitBreaker("imageServiceSwaggerCircuitBreaker",
                         URI.create("forward:/fallbackRoute")))
                 .filter(setPath("api-docs"))

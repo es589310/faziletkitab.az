@@ -28,8 +28,8 @@ public class CatalogController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Page<CatalogResponse>> getAllBooks(@RequestParam(defaultValue = "0") Integer page,
-                                                             @RequestParam(defaultValue = "10") Integer size) {
+    public ResponseEntity<?> getAllBooks(@RequestParam(defaultValue = "0") Integer page,
+                                         @RequestParam(defaultValue = "10") Integer size) {
         try {
             log.info("Kataloqun siyahılaşdırılması başladıldı. Səhifə: {}, Ölçüsü: {}", page, size);
             Pageable pageable = PageRequest.of(page, size);
@@ -37,7 +37,7 @@ public class CatalogController {
             Page<CatalogResponse> catalogResponsePage = catalogService.allBooks(pageable);
 
             log.info("Kataloqun siyahılaşdırıldı. Kataloq sayı: {}", catalogResponsePage.getContent().size());
-            return ResponseEntity.ok(catalogResponsePage);
+            return ResponseEntity.ok().body(catalogResponsePage);
         }catch (CatalogNotFoundException e){
             log.warn("Kataloq məlumatları tapılmadı - 41 : {}",e.getMessage());
             return new ResponseEntity<>(null,HttpStatus.INTERNAL_SERVER_ERROR);
