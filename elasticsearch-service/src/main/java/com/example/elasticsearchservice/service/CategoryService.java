@@ -6,6 +6,7 @@ import com.example.elasticsearchservice.entity.CategoryEntity;
 import com.example.elasticsearchservice.repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,30 +19,41 @@ public class CategoryService {
 
     private final CategoryClient categoryClient;
     private final CategoryRepo categoryRepo;
+    private final ElasticsearchOperations elasticsearchOperations;
+//    private final ElasticsearchClient elasticsearch;
+
+
+    // Kategorileri arama işlevi
+    public List<CategoryEntity> searchCategory(String searchText) {
+        // Elasticsearch üzerinden arama yapıyoruz
+        // Burada Elasticsearch'ün sorgu yeteneklerini kullanabiliriz
+        List<CategoryEntity> categoryEntities = elasticsearchOperations.queryForList(
+                // Burada bir sorgu oluşturmak gerekebilir, örneğin: match query
+                QueryBuilders.matchQuery("categoryName", searchText),
+                CategoryEntity.class
+        );
+
+        return categoryEntities;
+    }
 
     public Iterable<CategoryEntity> findAll() {
-        // Tüm kategorileri al
         List<CategoryDTO> categoryDTOs = categoryClient.getAllCategories();
 
-        // CategoryDTO listesini CategoryEntity listesine dönüştür
         List<CategoryEntity> categoryEntities = new ArrayList<>();
         for (CategoryDTO categoryDTO : categoryDTOs) {
-            CategoryEntity categoryEntity = new CategoryEntity();
-            categoryEntity.setCategoryId(categoryDTO.getCategoryId());
-            categoryEntity.setCategoryName(categoryDTO.getCategoryName());
-            categoryEntity.setCategoryDescription(categoryDTO.getCategoryDescription());
-            categoryEntities.add(categoryEntity);
+            categoryEntities.add(convertToEntity(categoryDTO));
         }
 
         return categoryEntities;
     }
 
 
-
+    // Kategori ekleme
     public CategoryEntity insertCategory(CategoryEntity categoryEntity) {
         return categoryRepo.save(categoryEntity);
     }
 
+    // Kategori güncelleme
     public CategoryEntity updateCategory(CategoryEntity categoryEntity, Long categoryId) {
         CategoryEntity category = categoryRepo.findById(categoryId).orElse(null);
         if (category != null) {
@@ -56,6 +68,7 @@ public class CategoryService {
         categoryRepo.deleteById(categoryId);
     }
 
+    // DTO'yu Entity'ye dönüştürme
     public CategoryEntity convertToEntity(CategoryDTO categoryDTO) {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setCategoryId(categoryDTO.getCategoryId());
@@ -64,14 +77,96 @@ public class CategoryService {
         return categoryEntity;
     }
 
-//    @CircuitBreaker(name = "categoryClient", fallbackMethod = "fallbackMethod")
-//    public CategoryDTO getCategoryById(Long categoryId) {
-//        return categoryClient.getCategoryId(categoryId);
-//    }
-//
-//    public CategoryDTO fallbackMethod(Long categoryId, Throwable throwable) {
-//        return new CategoryDTO(categoryId, "Unknown", "Unknown");
-//    }
+
+    public CategoryDTO fallbackMethod(Long categoryId, Throwable throwable) {
+        return new CategoryDTO(categoryId, "Unknown", "Unknown");
+    }
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+//    private static final String CATEGORYENTITY = "categories";
+//
+//
+//    public String createOrUpdateDocument(CategoryEntity categoryEntity) throws IOException {
+//        IndexResponse response = elasticsearch.index(i -> i
+//                .index(CATEGORYENTITY)
+//                .id(String.valueOf(categoryEntity.getCategoryId()))
+//                .document(categoryEntity));
+//
+//        Map<String, String> responseMessages = Map.of(
+//                "Created", "Document has been created",
+//                "Updated", "Document has been updated"
+//        );
+//
+//        return responseMessages.getOrDefault(response.result().name(), "Error has occurred");
+//
+//    }
+//
+//    public CategoryEntity findDocById(String categoryId) throws IOException {
+//        GetResponse<CategoryEntity> response = elasticsearch.get(g -> g.index(CATEGORYENTITY).id(categoryId), CategoryEntity.class);
+//
+//        if (response.found()) {
+//            return response.source(); // Doküman bulunduysa döndür
+//        } else {
+//            throw new IOException("Document not found with id: " + categoryId); // Eğer bulamazsa hata fırlat
+//        }
+//    }
+//
+//    // ID'ye göre doküman sil
+//    public String deleteDocById(String categoryId) throws IOException {
+//        DeleteRequest deleteRequest = DeleteRequest.of(d -> d.index(CATEGORYENTITY).id(categoryId));
+//        DeleteResponse response = elasticsearch.delete(deleteRequest);
+//
+//        // Silme sonucu mesajı
+//        if (response.result().name().equalsIgnoreCase("NOT_FOUND")) {
+//            return "Document not found with id: " + categoryId;
+//        } else {
+//            return "Document has been deleted";
+//        }
+//    }
+//
+//    // Tüm kategorileri listele
+//    public List<CategoryEntity> findAll() throws IOException {
+//        SearchRequest request = SearchRequest.of(s -> s.index(CATEGORYENTITY));
+//        SearchResponse<CategoryEntity> response = elasticsearch.search(request, CategoryEntity.class);
+//
+//        List<CategoryEntity> categoryEntities = new ArrayList<>();
+//        response.hits().hits().forEach(hit -> categoryEntities.add(hit.source()));
+//        return categoryEntities;
+//    }
+//
+//    // Birden fazla kategori kaydını topluca kaydet
+//    public String bulkSave(List<CategoryEntity> categoryEntities) throws IOException {
+//        BulkRequest.Builder br = new BulkRequest.Builder();
+//        categoryEntities.forEach(product -> br.operations(operation ->
+//                operation.index(i -> i
+//                        .index(CATEGORYENTITY)
+//                        .id(String.valueOf(product.getCategoryId()))
+//                        .document(product))));
+//
+//        BulkResponse response = elasticsearch.bulk(br.build());
+//        if (response.errors()) {
+//            // Hata varsa detaylı mesaj döndür
+//            return "Bulk operation has errors: " + response.items().toString();
+//        } else {
+//            return "Bulk save success";
+//        }
+
+
 

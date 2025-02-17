@@ -1,7 +1,6 @@
 package com.example.elasticsearchservice.config;
 
 import com.example.elasticsearchservice.client.CategoryClient;
-import org.apache.http.HttpHost;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
