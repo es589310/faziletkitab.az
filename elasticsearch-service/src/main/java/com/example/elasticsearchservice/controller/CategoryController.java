@@ -19,7 +19,6 @@ public class CategoryController {
 
     private final CategoryService categoryService;
 
-    // Kategori arama
     @GetMapping("/search")
     public ResponseEntity<?> searchCategory(@RequestParam String searchText) {
         try {
@@ -36,25 +35,21 @@ public class CategoryController {
         }
     }
 
-    // Tüm kategorileri getirme
     @GetMapping
     public Iterable<CategoryEntity> findAll() {
         return categoryService.findAll();
     }
 
-    // Kategori ekleme
     @PostMapping("/add")
     public CategoryEntity addCategory(@RequestBody CategoryEntity categoryEntity) {
         return categoryService.insertCategory(categoryEntity);
     }
 
-    // Kategori güncelleme
     @PutMapping("/update/{categoryId}")
     public CategoryEntity updateCategory(@RequestBody CategoryEntity categoryEntity, @PathVariable Long categoryId) {
         return categoryService.updateCategory(categoryEntity, categoryId);
     }
 
-    // Kategori silme
     @DeleteMapping("/delete/{categoryId}")
     public void deleteCategory(@PathVariable Long categoryId) {
         categoryService.deleteCategory(categoryId);

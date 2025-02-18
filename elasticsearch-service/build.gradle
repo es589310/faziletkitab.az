@@ -24,29 +24,25 @@ repositories {
 }
 
 dependencies {
-    // Spring Boot Starterlar
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
 
-    // Elasticsearch 8.x Bağımlılıkları
+    // Elasticsearch 8.x
     implementation 'org.elasticsearch.client:elasticsearch-rest-high-level-client:8.6.2'
 //    implementation 'co.elastic.clients:elasticsearch-java:8.6.2'
 
     implementation 'org.elasticsearch:elasticsearch:8.6.2'
 
-    // JSON API (Elasticsearch 8.x için gerekli)
+    // JSON API (Elasticsearch 8.x üçün)
     implementation 'jakarta.json:jakarta.json-api:2.1.3'
 
-    // Lombok
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
 
-    // Test Bağımlılıkları
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-    // Swagger OpenAPI
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.4'
 
