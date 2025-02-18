@@ -28,26 +28,47 @@ public class ElasticsearchConfig {
     @Value("${spring.elasticsearch.password}")
     private String password;
 
+    /**
+     * Elasticsearch için kimlik doğrulaması ve bağlantı ayarları ile bir RestClient oluşturur.
+     */
     @Bean
     public RestClient getRestClient() {
-        RestClient restClient = RestClient.builder(
-                new HttpHost("localhost", 9200)).build();
-        return restClient;
+        String[] uris = elasticsearchUris.split(",");
+        HttpHost[] hosts = Arrays.stream(uris)
+                .map(uri -> HttpHost.create(uri.trim()))
+                .toArray(HttpHost[]::new);
+
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY,
+                new UsernamePasswordCredentials(username, password));
+
+        return RestClient.builder(hosts)
+                .setHttpClientConfigCallback(httpClientBuilder ->
+                        httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
+                .build();
     }
 
+    /**
+     * Elasticsearch ile iletişim kurmak için bir ElasticsearchTransport nesnesi oluşturur.
+     */
     @Bean
     public ElasticsearchTransport getElasticsearchTransport() {
         return new RestClientTransport(
                 getRestClient(), new JacksonJsonpMapper());
     }
 
-
+    /**
+     * Elasticsearch API'yi kullanmak için bir ElasticsearchClient nesnesi sağlar.
+     */
     @Bean
     public ElasticsearchClient getElasticsearchClient(){
-        ElasticsearchClient client = new ElasticsearchClient(getElasticsearchTransport());
-        return client;
+        return new ElasticsearchClient(getElasticsearchTransport());
     }
-//    @Bean
+
+
+
+
+    //    @Bean
 //    public RestClient customElasticsearchClient() {
 //
 //

@@ -1,16 +1,22 @@
 package com.example.elasticsearchservice.service;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.elasticsearch._types.query_dsl.MatchQuery;
+import co.elastic.clients.elasticsearch._types.query_dsl.Query;
+import co.elastic.clients.elasticsearch.core.SearchResponse;
 import com.example.elasticsearchservice.client.CategoryClient;
 import com.example.elasticsearchservice.dto.CategoryDTO;
 import com.example.elasticsearchservice.entity.CategoryEntity;
 import com.example.elasticsearchservice.repository.CategoryRepo;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.elasticsearch.core.ElasticsearchOperations;
+import co.elastic.clients.elasticsearch.core.search.Hit;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -19,21 +25,28 @@ public class CategoryService {
 
     private final CategoryClient categoryClient;
     private final CategoryRepo categoryRepo;
-    private final ElasticsearchOperations elasticsearchOperations;
-//    private final ElasticsearchClient elasticsearch;
+//    private final ElasticsearchOperations elasticsearchOperations;
+    private final ElasticsearchClient elasticsearch;
 
 
-    // Kategorileri arama işlevi
-    public List<CategoryEntity> searchCategory(String searchText) {
-        // Elasticsearch üzerinden arama yapıyoruz
-        // Burada Elasticsearch'ün sorgu yeteneklerini kullanabiliriz
-        List<CategoryEntity> categoryEntities = elasticsearchOperations.queryForList(
-                // Burada bir sorgu oluşturmak gerekebilir, örneğin: match query
-                QueryBuilders.matchQuery("categoryName", searchText),
+    public List<CategoryEntity> searchCategory(String searchText) throws IOException {
+        // Match sorgusunu oluştur
+        Query matchQuery = MatchQuery.of(m -> m
+                .field("categoryName")
+                .query(searchText)
+        )._toQuery();
+
+        // Elasticsearch'e sorgu gönder
+        SearchResponse<CategoryEntity> response = elasticsearch.search(s -> s
+                        .index("categories")  // Kendi Elasticsearch indeks adını kullan
+                        .query(matchQuery),
                 CategoryEntity.class
         );
 
-        return categoryEntities;
+        // Sonuçları List<CategoryEntity> olarak döndür
+        return response.hits().hits().stream()
+                .map(Hit::source)
+                .collect(Collectors.toList());
     }
 
     public Iterable<CategoryEntity> findAll() {
