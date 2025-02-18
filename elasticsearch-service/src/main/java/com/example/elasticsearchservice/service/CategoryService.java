@@ -30,20 +30,17 @@ public class CategoryService {
 
 
     public List<CategoryEntity> searchCategory(String searchText) throws IOException {
-        // Match sorgusunu oluştur
         Query matchQuery = MatchQuery.of(m -> m
                 .field("categoryName")
                 .query(searchText)
         )._toQuery();
 
-        // Elasticsearch'e sorgu gönder
         SearchResponse<CategoryEntity> response = elasticsearch.search(s -> s
-                        .index("categories")  // Kendi Elasticsearch indeks adını kullan
+                        .index("categories")
                         .query(matchQuery),
                 CategoryEntity.class
         );
 
-        // Sonuçları List<CategoryEntity> olarak döndür
         return response.hits().hits().stream()
                 .map(Hit::source)
                 .collect(Collectors.toList());
@@ -61,12 +58,10 @@ public class CategoryService {
     }
 
 
-    // Kategori ekleme
     public CategoryEntity insertCategory(CategoryEntity categoryEntity) {
         return categoryRepo.save(categoryEntity);
     }
 
-    // Kategori güncelleme
     public CategoryEntity updateCategory(CategoryEntity categoryEntity, Long categoryId) {
         CategoryEntity category = categoryRepo.findById(categoryId).orElse(null);
         if (category != null) {
@@ -81,7 +76,6 @@ public class CategoryService {
         categoryRepo.deleteById(categoryId);
     }
 
-    // DTO'yu Entity'ye dönüştürme
     public CategoryEntity convertToEntity(CategoryDTO categoryDTO) {
         CategoryEntity categoryEntity = new CategoryEntity();
         categoryEntity.setCategoryId(categoryDTO.getCategoryId());

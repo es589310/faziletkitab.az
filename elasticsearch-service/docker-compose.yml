@@ -3,14 +3,14 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:8.6.2
     environment:
       - discovery.type=single-node
-      - ELASTIC_PASSWORD=elastic232323  # Burada istediğiniz şifreyi kullanabilirsiniz
+      - ELASTIC_PASSWORD=elastic232323
     ports:
-      - "9200:9200"  # Elasticsearch'e erişim portu
-      - "9300:9300"  # Elasticsearch node-to-node iletişim portu
+      - "9200:9200"
+      - "9300:9300"
     networks:
       - elastic_network
     volumes:
-      - esdata:/usr/share/elasticsearch/data  # Verilerin kalıcı olması için volume ekleniyor
+      - esdata:/usr/share/elasticsearch/data
 
 volumes:
   esdata:

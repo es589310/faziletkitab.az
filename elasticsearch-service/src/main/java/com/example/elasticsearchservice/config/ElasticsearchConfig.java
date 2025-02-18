@@ -28,9 +28,6 @@ public class ElasticsearchConfig {
     @Value("${spring.elasticsearch.password}")
     private String password;
 
-    /**
-     * Elasticsearch için kimlik doğrulaması ve bağlantı ayarları ile bir RestClient oluşturur.
-     */
     @Bean
     public RestClient getRestClient() {
         String[] uris = elasticsearchUris.split(",");
@@ -48,18 +45,13 @@ public class ElasticsearchConfig {
                 .build();
     }
 
-    /**
-     * Elasticsearch ile iletişim kurmak için bir ElasticsearchTransport nesnesi oluşturur.
-     */
+
     @Bean
     public ElasticsearchTransport getElasticsearchTransport() {
         return new RestClientTransport(
                 getRestClient(), new JacksonJsonpMapper());
     }
 
-    /**
-     * Elasticsearch API'yi kullanmak için bir ElasticsearchClient nesnesi sağlar.
-     */
     @Bean
     public ElasticsearchClient getElasticsearchClient(){
         return new ElasticsearchClient(getElasticsearchTransport());
