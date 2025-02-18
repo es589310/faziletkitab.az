@@ -1,5 +1,9 @@
 package com.example.elasticsearchservice.config;
 
+import co.elastic.clients.elasticsearch.ElasticsearchClient;
+import co.elastic.clients.json.jackson.JacksonJsonpMapper;
+import co.elastic.clients.transport.ElasticsearchTransport;
+import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -24,29 +28,77 @@ public class ElasticsearchConfig {
     @Value("${spring.elasticsearch.password}")
     private String password;
 
+    /**
+     * Elasticsearch için kimlik doğrulaması ve bağlantı ayarları ile bir RestClient oluşturur.
+     */
     @Bean
-    public RestClient customElasticsearchClient() {
-        // Kimlik doğrulama sağlayıcısı oluştur
+    public RestClient getRestClient() {
+        String[] uris = elasticsearchUris.split(",");
+        HttpHost[] hosts = Arrays.stream(uris)
+                .map(uri -> HttpHost.create(uri.trim()))
+                .toArray(HttpHost[]::new);
+
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY,
                 new UsernamePasswordCredentials(username, password));
 
-        // HttpHost'ları oluştur
-        HttpHost[] httpHosts = Arrays.stream(elasticsearchUris.split(","))
-                .map(uri -> {
-                    String[] parts = uri.split("://");
-                    String protocol = parts[0]; // http veya https
-                    String[] hostAndPort = parts[1].split(":");
-                    String host = hostAndPort[0];
-                    int port = Integer.parseInt(hostAndPort[1]);
-                    return new HttpHost(host, port, protocol);
-                })
-                .toArray(HttpHost[]::new);
-
-        // RestClient'ı oluştur ve kimlik doğrulama bilgilerini ekle
-        return RestClient.builder(httpHosts)
-                .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-                        .setDefaultCredentialsProvider(credentialsProvider))
+        return RestClient.builder(hosts)
+                .setHttpClientConfigCallback(httpClientBuilder ->
+                        httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
                 .build();
     }
+
+    /**
+     * Elasticsearch ile iletişim kurmak için bir ElasticsearchTransport nesnesi oluşturur.
+     */
+    @Bean
+    public ElasticsearchTransport getElasticsearchTransport() {
+        return new RestClientTransport(
+                getRestClient(), new JacksonJsonpMapper());
+    }
+
+    /**
+     * Elasticsearch API'yi kullanmak için bir ElasticsearchClient nesnesi sağlar.
+     */
+    @Bean
+    public ElasticsearchClient getElasticsearchClient(){
+        return new ElasticsearchClient(getElasticsearchTransport());
+    }
+
+
+
+
+    //    @Bean
+//    public RestClient customElasticsearchClient() {
+//
+//
+
+
+        //        // Kimlik doğrulama sağlayıcısı oluştur
+//        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+//        credentialsProvider.setCredentials(AuthScope.ANY,
+//                new UsernamePasswordCredentials(username, password));
+//
+//        // HttpHost'ları oluştur
+//        HttpHost[] httpHosts = Arrays.stream(elasticsearchUris.split(","))
+//                .map(uri -> {
+//                    String[] parts = uri.split("://");
+//                    String protocol = parts[0]; // http veya https
+//                    String[] hostAndPort = parts[1].split(":");
+//                    String host = hostAndPort[0];
+//                    int port = Integer.parseInt(hostAndPort[1]);
+//                    return new HttpHost(host, port, protocol);
+//                })
+//                .toArray(HttpHost[]::new);
+//
+//        // RestClient'ı oluştur ve kimlik doğrulama bilgilerini ekle
+//        return RestClient.builder(httpHosts)
+//                .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
+//                        .setDefaultCredentialsProvider(credentialsProvider))
+//                .build();
+//    }
+//    @Bean
+//    public RestClient restClient() {
+//        return RestClient.builder(new HttpHost("localhost", 9200, "http")).build();
+//    }
 }
