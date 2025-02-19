@@ -1,22 +1,25 @@
 package com.example.elasticsearchservice.entity;
 
-import lombok.*;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.elasticsearch.annotations.Document;
-import org.springframework.data.elasticsearch.annotations.Field;
-import org.springframework.data.elasticsearch.annotations.FieldType;
 
-@Document(indexName = "categories")
-@Data
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Entity
+@Table(name = "categories")
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryEntity {
+
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long categoryId;
 
-    @Field(type = FieldType.Text, name = "categoryName")
     private String categoryName;
 
-    @Field(type = FieldType.Text, name = "categoryDescription")
     private String categoryDescription;
 }
