@@ -7,14 +7,11 @@ import co.elastic.clients.transport.rest_client.RestClientTransport;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.CredentialsProvider;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.elasticsearch.client.RestClient;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import java.util.Arrays;
 
 @Configuration
 public class ElasticsearchConfig {
@@ -29,68 +26,39 @@ public class ElasticsearchConfig {
     private String password;
 
     @Bean
-    public RestClient getRestClient() {
-        String[] uris = elasticsearchUris.split(",");
-        HttpHost[] hosts = Arrays.stream(uris)
-                .map(uri -> HttpHost.create(uri.trim()))
-                .toArray(HttpHost[]::new);
+    public RestClient restClient() {
+        final BasicCredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(
+            AuthScope.ANY,
+            new UsernamePasswordCredentials(username, password)
+        );
 
-        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY,
-                new UsernamePasswordCredentials(username, password));
-
-        return RestClient.builder(hosts)
-                .setHttpClientConfigCallback(httpClientBuilder ->
-                        httpClientBuilder.setDefaultCredentialsProvider(credentialsProvider))
-                .build();
+        return RestClient.builder(HttpHost.create(elasticsearchUris))
+            .setHttpClientConfigCallback(httpClientBuilder -> 
+                httpClientBuilder
+                    .setDefaultCredentialsProvider(credentialsProvider)
+                    .setKeepAliveStrategy((response, context) -> 30000) // 30 saniye
+                    .setMaxConnTotal(100) // maksimum bağlantı sayısı
+                    .setMaxConnPerRoute(100) // route başına maksimum bağlantı
+            )
+            .setRequestConfigCallback(requestConfigBuilder ->
+                requestConfigBuilder
+                    .setConnectTimeout(5000)  // 5 saniye
+                    .setSocketTimeout(60000)   // 60 saniye
+            )
+            .build();
     }
 
-
     @Bean
-    public ElasticsearchTransport getElasticsearchTransport() {
+    public ElasticsearchTransport elasticsearchTransport() {
         return new RestClientTransport(
-                getRestClient(), new JacksonJsonpMapper());
+            restClient(),
+            new JacksonJsonpMapper()
+        );
     }
 
     @Bean
-    public ElasticsearchClient getElasticsearchClient(){
-        return new ElasticsearchClient(getElasticsearchTransport());
+    public ElasticsearchClient elasticsearchClient() {
+        return new ElasticsearchClient(elasticsearchTransport());
     }
-
-
-
-
-    //    @Bean
-//    public RestClient customElasticsearchClient() {
-//
-//
-
-
-        //        // Kimlik doğrulama sağlayıcısı oluştur
-//        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-//        credentialsProvider.setCredentials(AuthScope.ANY,
-//                new UsernamePasswordCredentials(username, password));
-//
-//        // HttpHost'ları oluştur
-//        HttpHost[] httpHosts = Arrays.stream(elasticsearchUris.split(","))
-//                .map(uri -> {
-//                    String[] parts = uri.split("://");
-//                    String protocol = parts[0]; // http veya https
-//                    String[] hostAndPort = parts[1].split(":");
-//                    String host = hostAndPort[0];
-//                    int port = Integer.parseInt(hostAndPort[1]);
-//                    return new HttpHost(host, port, protocol);
-//                })
-//                .toArray(HttpHost[]::new);
-//
-//        // RestClient'ı oluştur ve kimlik doğrulama bilgilerini ekle
-//        return RestClient.builder(httpHosts)
-//                .setHttpClientConfigCallback(httpClientBuilder -> httpClientBuilder
-//                        .setDefaultCredentialsProvider(credentialsProvider))
-//                .build();
-//    }
-//    @Bean
-//    public RestClient restClient() {
-//        return RestClient.builder(new HttpHost("localhost", 9200, "http")).build();
-//    }
 }

@@ -1,14 +1,15 @@
 services:
   elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:8.6.0
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.17.2
     environment:
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g  # Elasticsearch için minimum ve maksimum RAM
       - discovery.type=single-node
       - ELASTIC_USERNAME=elastic
-      - ELASTIC_PASSWORD=elastic232323
+      - ELASTIC_PASSWORD=QtpW3C3mrKJjaC-JUJ2l
       - xpack.security.enabled=true
       - xpack.security.authc.api_key.enabled=true
     ports:
-      - "9200:9200"
+      - "9201:9200"
       - "9300:9300"
     ulimits:
       memlock:
@@ -20,33 +21,43 @@ services:
       - esdata:/usr/share/elasticsearch/data
 
   kibana:
-    image: docker.elastic.co/kibana/kibana:8.6.0
+    image: docker.elastic.co/kibana/kibana:8.17.2
     container_name: kibana
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
-      - ELASTICSEARCH_USERNAME=elastic
-      - ELASTICSEARCH_PASSWORD=elastic232323
+      - ELASTICSEARCH_HOSTS=http://elasticsearch:9201
+        - ELASTICSEARCH_USERNAME=elastic
+        - ELASTICSEARCH_PASSWORD=QtpW3C3mrKJjaC-JUJ2l
+        - ELASTICSEARCH_API_KEY=AAEAAWVsYXN0aWMva2liYW5hL2RlZmF1bHQ6S3Jpd0VxZXFTS2E1c3FPeW9jYWxXdw  # Kibana token'ı buraya ekliyoruz
     ports:
-      - "5601:5601"
+      - "5602:5601"
     depends_on:
       - elasticsearch
     networks:
       - elastic_network
 
   logstash:
-    image: docker.elastic.co/logstash/logstash:8.6.0
+    image: docker.elastic.co/logstash/logstash:8.17.2
     container_name: logstash
     environment:
-      - LS_JAVA_OPTS=-Xmx256m -Xms256m
+      - LS_JAVA_OPTS=-Xms512m -Xmx512m  # Bellek optimizasyonu
     volumes:
-      - ./logstash.yml:/usr/share/logstash/config/logstash.yml  # Logstash config dosyasını bağla
-      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf  # Logstash pipeline dosyasını bağla
+      - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./logstash.conf:/usr/share/logstash/pipeline/logstash.conf
+      - /var/log/elasticsearch:/usr/share/logstash/logs  # Logstash içinde farklı bir yol deneyelim
     ports:
-      - "5044:5044"
+      - "5045:5044"
     networks:
       - elastic_network
     depends_on:
       - elasticsearch
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"  # CPU limiti belirleyin
+          memory: 2G    # Bellek limiti belirleyin
+        reservations:
+          cpus: "0.5"   # Rezerv CPU
+          memory: 1G     # Rezerv bellek
 
 volumes:
   esdata:
