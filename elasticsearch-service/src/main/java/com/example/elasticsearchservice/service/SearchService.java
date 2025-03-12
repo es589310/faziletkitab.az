@@ -86,7 +86,7 @@ public class SearchService {
         
         return searchHits.stream()
             .map(hit -> new CategoryResponseDto(
-                hit.getContent().getCategoryId(),
+                Long.valueOf(hit.getContent().getCategoryId()),
                 hit.getContent().getCategoryName()
             ))
             .collect(Collectors.toList());

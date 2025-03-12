@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "authors")
 public class AuthorDocument {
     @Id
-    private Long authorId;
+    private String authorId;
 
     @Field(type = FieldType.Text, name = "name")
     private String name;

@@ -21,7 +21,7 @@ configurations {
 
 dependencyManagement {
     imports {
-        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2022.0.4"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:2023.0.4"
     }
 }
 
@@ -36,6 +36,9 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     implementation 'org.springframework.cloud:spring-cloud-starter-loadbalancer'
+
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign:4.2.0'
+
     implementation 'io.github.resilience4j:resilience4j-spring-boot2'
     implementation 'io.github.resilience4j:resilience4j-feign'
 
@@ -44,7 +47,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-    testImplementation 'org.springframework.data:spring-data-elasticsearch'
+//    testImplementation 'org.springframework.data:spring-data-elasticsearch'
+    implementation 'co.elastic.clients:elasticsearch-java:8.17.2'
     runtimeOnly 'org.postgresql:postgresql'
 
     implementation 'org.springframework.boot:spring-boot-starter-logging' //yüksək səviyyəli loglama
@@ -60,7 +64,7 @@ dependencies {
 
     // Spring Data Elasticsearch
     implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-    
+
     // Elasticsearch Java API Client (opsiyonel, eğer doğrudan client kullanmak isterseniz)
     implementation 'co.elastic.clients:elasticsearch-java:8.17.2'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.15.3'

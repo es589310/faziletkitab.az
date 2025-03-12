@@ -14,7 +14,7 @@ import org.springframework.data.elasticsearch.annotations.FieldType;
 @Document(indexName = "categories")
 public class CategoryDocument {
     @Id
-    private Long categoryId;
+    private String categoryId;
 
     @Field(type = FieldType.Text, name = "categoryName")
     private String categoryName;
