@@ -13,6 +13,5 @@ public class CategoryRequest {
 
     private String categoryName;
     private String categoryDescription;
-//    private Long catalogId;
 
 }
