@@ -47,10 +47,10 @@ public class CatalogService {
                     }
 
                     catalogResponse.setAuthor(author);
-                    }catch (Exception e){
-                        log.error("Yazar məlumatı alınmır - 50: {}", e.getMessage());
-                        return catalogResponse;
-                    }
+                }catch (Exception e){
+                    log.error("Yazar məlumatı alınmır - 50: {}", e.getMessage());
+                    return catalogResponse;
+                }
 
 
                 try {
@@ -61,10 +61,10 @@ public class CatalogService {
                         catalogResponse.setImageUrl(imageResponse.getImageUrl());
                     }
 
-                    }catch (Exception e){
-                        log.warn("Şəkillərin url-i tapılmır - 63! Response: {}", e.getMessage());
-                        return catalogResponse;
-                    }
+                }catch (Exception e){
+                    log.warn("Şəkillərin url-i tapılmır - 63! Response: {}", e.getMessage());
+                    return catalogResponse;
+                }
 
 
                 try {
@@ -78,13 +78,13 @@ public class CatalogService {
                     log.warn("Kateqoriya tapılmır! Response - 74: {}", e.getMessage());
                     return catalogResponse;
                 }
-                    return catalogResponse;
-                });
+                return catalogResponse;
+            });
 
-        long endTime = System.currentTimeMillis();
-        log.info("Kataloqdaki datalar sıralandı. Müddət: {} ms", (endTime - startTime));
+            long endTime = System.currentTimeMillis();
+            log.info("Kataloqdaki datalar sıralandı. Müddət: {} ms", (endTime - startTime));
 
-                return catalogResponsePage;
+            return catalogResponsePage;
         } catch (CatalogNotFoundException e) {
             log.error("Kateqoriya list halına keçmir: {}", e.getMessage());
             throw new RuntimeException("Kateqoriya list halına keçmədi!");
