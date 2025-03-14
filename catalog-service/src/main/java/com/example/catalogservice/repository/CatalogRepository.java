@@ -9,6 +9,6 @@ import java.util.List;
 
 @Repository
 public interface CatalogRepository extends JpaRepository<Catalog, Long> {
-    List<Catalog> findByCategoryId(Long categoryId);
-    List<Catalog> findByTitleContainingIgnoreCase(String title);
+//    List<Catalog> findByCategoryId(Long categoryId);
+//    List<Catalog> findByTitleContainingIgnoreCase(String title);
 }
