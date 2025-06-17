@@ -57,11 +57,6 @@ dependencies {
     implementation group: 'org.springframework.boot', name: 'spring-boot-starter-hateoas', version: '3.4.1'
     implementation group: 'org.springframework.hateoas', name: 'spring-hateoas', version: '2.4.1'
 
-    // Spring Data Elasticsearch
-    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
-
-    // Elasticsearch Java API Client (opsiyonel, eğer doğrudan client kullanmak isterseniz)
-    implementation 'co.elastic.clients:elasticsearch-java:8.17.2'
 }
 
 dependencyManagement {
