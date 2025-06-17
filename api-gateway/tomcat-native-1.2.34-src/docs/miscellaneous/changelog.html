@@ -1,0 +1,613 @@
+<!DOCTYPE html SYSTEM "about:legacy-compat">
+<html lang="en"><head><META http-equiv="Content-Type" content="text/html; charset=UTF-8"><link href="../images/docs-stylesheet.css" rel="stylesheet" type="text/css"><link href="../images/style.css" rel="stylesheet" type="text/css"><title>The Apache Tomcat Native - Miscellaneous Documentation - </title><meta name="author" content="Jean-Frederic Clere"></head><body><div id="wrapper"><header><div id="header"><div><div><div class="logo noPrint"><a href="http://tomcat.apache.org/"><img alt="Tomcat Home" src="../images/tomcat.png"></a></div><div style="height: 1px;"></div><div class="asfLogo noPrint"><a href="http://www.apache.org/" target="_blank"><img src="../images/asf-feather.png" alt="The Apache Software Foundation" style="width: 266px; height: 83px;"></a></div><h1>The Apache Tomcat Native - Miscellaneous Documentation</h1><div style="height: 1px;"></div><div style="clear: left;"></div></div></div></div></header><div id="middle"><div><div id="mainLeft" class="noprint"><div><nav><div><h2><strong>Links</strong></h2><ul><li><a href="../index.html">Docs Home</a></li></ul></div><div><h2><strong>Miscellaneous Documentation</strong></h2><ul><li><a href="../miscellaneous/changelog.html">Changelog</a></li></ul></div><div><h2><strong>News</strong></h2><ul><li><a href="../news/2022.html">2022</a></li><li><a href="../news/2021.html">2021</a></li><li><a href="../news/2020.html">2020</a></li><li><a href="../news/2019.html">2019</a></li><li><a href="../news/2018.html">2018</a></li><li><a href="../news/2017.html">2017</a></li><li><a href="../news/2016.html">2016</a></li><li><a href="../news/2015.html">2015</a></li><li><a href="../news/2014.html">2014</a></li><li><a href="../news/2013.html">2013</a></li><li><a href="../news/2012.html">2012</a></li><li><a href="../news/2011.html">2011</a></li><li><a href="../news/2010.html">2010</a></li><li><a href="../news/2009.html">2009</a></li><li><a href="../news/2008.html">2008</a></li></ul></div></nav></div></div><div id="mainRight"><div id="content"><h2></h2><h3 id="Preface">Preface</h3><div class="text">
+  <p>
+  This is the Changelog for Tomcat Native 1.2.
+  </p>
+</div><h3 id="Changes_in_1.2.34">Changes in 1.2.34</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Code: " class="icon" src="../images/code.gif">
+      Refactor library initialization so it is compatible with Tomcat 10.1.x
+      onwards where a number of Java classes have been removed. (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Map the OpenSSL 3.x FIPS behaviour to the OpenSSL 1.x API to allow clients
+      to determine if the FIPS provider is being used when Tomcat Native is
+      compiled against OpenSSL 3.x. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.33">Changes in 1.2.33</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=66035">66035</a>: Fix crash when attempting to read TLS session ID after a
+      handshake failure. (schultz/markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Enable <code>download_deps.sh</code> to be called from any directory. Pull
+      request <a href="https://github.com/apache/tomcat-native/pull/12">#12</a> provided by Dimitrios Soumis. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.1.1o or later. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.32">Changes in 1.2.32</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.1.1n or later. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix release script so it works with the current git layout. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.31">Changes in 1.2.31</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65441">65441</a>: Correct previous fix that enabled building to continue
+      with OpenSSL 3.x. Patch provided by lzsiga. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65659">65659</a>: Remove remaining reference to <code>pkg-config</code>
+      which is no longer included in the Tomcat Native distribution. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.30">Changes in 1.2.30</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65181">65181</a>: Additional changes required to provided support for
+      using OpenSSL Engines that use proprietary key formats. Based on a patch
+      provided by Edin Hodzic. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65329">65329</a>: Correct handling of <code>WINVER</code> in make file to
+      use correct constant for Windows 7. Add constants for Windows 8,
+      Windows 8.1 and Windows 10. Rename <code>WINNT</code> to
+      <code>WIN2k</code> as it is used for Windows 2000 upwards, not Windows NT
+      upwards. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.29_(not_released)">Changes in 1.2.29 (not released)</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Add a patch for APR that fixes an issue where some Windows systems in some
+      configurations would only listen on IPv6 addresses on dual stack systems
+      even though configured to listen on both IPv6 and IPv4 addresses.
+      (michaelo)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.28">Changes in 1.2.28</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correct a regression in the fix for <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65181">65181</a> that prevented an
+      error message from being displayed if an invalid key file was provided
+      and no OpenSSL Engine was configured. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.27">Changes in 1.2.27</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=65181">65181</a>: Improve support for using OpenSSL Engines that use
+      proprietary key formats. Patch provided by Edin Hodzic. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.1.1k or later. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.26">Changes in 1.2.26</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Enable building to continue against OpenSSL 3.x and 1.1.1. (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=64942">64942</a>: Expose support for Unix Domain Sockets in APR v1.6 and up. (minfrin)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.1.1i or later. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.25">Changes in 1.2.25</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Incomplete name mangling fix for C++ compilers in tcn_api.h. (michaelo)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Improve OS-specific header include for native thread id. (michaelo)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Disable keylog callback support for LibreSSL. (michaelo)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for <code>SSLContext.addChainCertificateRaw()</code> with
+      LibreSSL 2.9.1 and up. (michaelo)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for HP-UX's _lwp_self() in our
+      ssl_thread_id(void). (michaelo)
+    </li>
+    <remove>
+      Remove default option passed for rpath to linker on HP-UX. (michaelo)
+    </remove>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add an option to allow the OCSP responder check to be bypassed. Note that
+      if OCSP is enabled, a missing responder is now treated as an error.
+      (jfclere)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=64429">64429</a>: Fix compilation with LibreSSL. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.24">Changes in 1.2.24</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=63671">63671</a>: libtcnative does not compile with OpenSSL &lt; 1.1.0
+      and APR w/o threading support. (michaelo)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correct configure message for OpenSSL libdir. (michaelo)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=64260">64260</a>: Clean up install target. (michaelo)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=64315">64315</a>: configure output for OpenSSL wrong/incomplete sometimes.
+      (michaelo)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Drop obsolete build time workarounds for HP-UX. (michaelo)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for FreeBSD's pthread_getthreadid_np() in our
+      ssl_thread_id(void). (michaelo)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=63701">63701</a>: Use new OpenSSL initialisation process when building with
+      OpenSSL 1.1.0 onwards. (mturk)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=64316">64316</a>: Introduce tcn_get_thread_id(void) to reduce code
+	  duplication. (michaelo)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix linking against OpenSSL in non-standard locations on FreeBSD.
+      (michaelo)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.23">Changes in 1.2.23</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Make file fixes to enable building with APR 1.7.x. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Switch to Windows 7 as the default target. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update minimum OpenSSL version to 1.0.2r. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.22">Changes in 1.2.22</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=63159">63159</a>: Unable to complete build when build directory is
+      outside of the source tree. Patch provided by Bob Huemmer. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=63356">63356</a>: Fix client certificate authentication when a certificate
+      contains an AIA extension without an OCSP URI. Patch provided by Milind
+      Takawale. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=63500">63500</a>: Fix JVM crash on Connector start when a certificate
+      revocation file or path is specified for OpenSSL. (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for TLS key logging when using OpenSSL 1.1.1 or later. If the
+      environment variable SSLKEYLOGFILE is set then the TLS keys will be logged
+      to that file. Patch provided by John Kelly. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Update build script after migration of soucre repository from Subversion
+      to Git. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.21">Changes in 1.2.21</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correct a possible JVM crash during shutdown caused by a bug in the fix
+      for the per connection memory leak included in 1.2.20. (rjung)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.20">Changes in 1.2.20</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Update includedir name to tomcat-native instead of apr. (csutherl)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix a minor memory leak. It occurred every time a TLS connector was
+      started so the impact was very unlikely to be noticed. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix some minor memory leaks that could occur after error conditions during
+      TLS connector initialisation. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix a per connection memory leak when using OpenSSL BIO. This is typically
+      used when OpenSSL is providing the TLS support for NIO or NIO2. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.19">Changes in 1.2.19</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62892">62892</a>: Fix memory leaks in OCSP handling. (jfclere)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62944">62944</a>: Fix copy/paste error that prevented TLS 1.0 and TLS 1.1
+      from being used if TLS 1.3 was available. Patch provided by Dean Rasheed.
+      (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Include OpenSSL licensing information in the Tomcat Native binaries for
+      Windows that are built with OpenSSL. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.0.2q or later. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.18">Changes in 1.2.18</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62641">62641</a>: libtool invocations should use --tag=CC. (michaelo)
+    </li>
+    <li><img alt="Code: " class="icon" src="../images/code.gif">
+      Remove support for Netware as there has not been a supported Netware
+      platform for a number of years. (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62748">62748</a>: Add support for TLS 1.3 when built with OpenSSL 1.1.1 or
+      equivalent. (schultz/markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Expose the API necessary for CLIENT-CERT authentication to be correctly
+      supported when using Tomcat's JSSE implementation backed by OpenSSL.
+      (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.17">Changes in 1.2.17</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62094">62094</a>: Certificate verification using CRL with
+      Tomcat APR connector does not work. (jfclere)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62122">62122</a>: undefined symbol: SSL_COMP_free_compression_methods. (jfclere)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=62221">62221</a>: OCSP response processing uses always the first
+      entry in the response. (jfclere)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Further clean-up in the OCSP extension logic. (jfclere)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.16">Changes in 1.2.16</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Further clean-up in the parsing of the OCSP extension. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.15">Changes in 1.2.15</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.0.2m. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correctly calculate field lengths when parsing the OCSP extension so
+      that longer values are read correctly. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update the recommended APR version to 1.6.3 or later. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.14">Changes in 1.2.14</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix a small memory leak during certificate initialization. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Replace use of deprecated <code>ASN1_STRING_data</code> with
+      <code>ASN1_STRING_get0_data</code> when building against
+      OpenSSL 1.1.0 and newer. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix a thread local key leak. Only relevant when doing
+      SSL.initialize() and Library.terminate() a lot of times. (rjung)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.13">Changes in 1.2.13</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Add missing source files to Visual Studio project files. (wrowe)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for the OpenSSL SSL_CONF API. (rjung)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add SSLContext.getCiphers(). (rjung)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add method to add a single CA certificate to the list of CA certificates
+      which are accepted as issuers of client certificates. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix an error not announcing the correct CA list for client certificates
+      during TLS handshake. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix renegotiation to obtain a client certificate from a user agent.
+      (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58434">58434</a>: Allow Tomcat Native to be compiled with LibreSSL. Note
+      that some features may not be available when using LibreSSL. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=60290">60290</a>: When building Tomcat Native, don't ignore the value of
+      <code>CC</code> if explicitly set. Patch provided by Michael Osipov.
+      (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=60301">60301</a>: When building Tomcat Native, allow the user to override
+      the libtool specified by APR by setting the <code>LIBTOOL</code>
+      environment variable. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update build to use APR 1.6.x, with 1.6.2 recommended. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update recommended OpenSSL version to 1.0.2l. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.12">Changes in 1.2.12</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correct a regression in the fix for <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59797">59797</a> that triggered a JVM
+      crash on shutdown in some Tomcat unit tests when using the APR/native
+      connector. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.11">Changes in 1.2.11</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=52627">52627</a>: Prevent a crash in <code>File.infoGet()</code> caused by
+      the use of uninitialised variables. Based on patch by Ilya Maykov. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55113">55113</a>: Document the process for creating a static tc-native
+      library with a FIPS-enabled OpenSSL and update the nmake make file to
+      support the process. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55114">55114</a>: Clean up building instructions for the native component
+      and expand the instructions for building for Windows platforms. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=55938">55938</a>: Resolve remaining clang-analyzer warnings. Note that the
+      use of <code>-1</code> to indicate the full array in
+      <code>File.(read|write)[Full]</code> has been removed since it was only
+      partially implemented and the implementation was faulty. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58082">58082</a>: Update unit tests to use JUnit 4. Refactor unit tests
+      into separate tests and use an external to reference them in the same way
+      an external is used to reference the main code. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59797">59797</a>: Ensure that the per thread error hash maintained by
+      OpenSSL is cleaned up as individual threads exit to ensure it does not
+      grow too large. Patch provided by Nate Clark. (markt) 
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59996">59996</a>: Correctly handle building tc-native on a 64-bit system
+      when using an OpenSSL distribution that is not in <code>/usr</code>.
+      (csutherl)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=60388">60388</a>: The --disable-maintainer-mode option of the configure
+      script no longer enables the maintainer mode. (ebourg)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update minimum recommended OpenSSL version to 1.0.2k. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.10">Changes in 1.2.10</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update minimum recommended OpenSSL version to 1.0.2j. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.9">Changes in 1.2.9</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update minimum recommended OpenSSL version to 1.0.2i. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.8">Changes in 1.2.8</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59616">59616</a>: Correct the Windows build files so that OCSP is
+      correctly enabled and disabled in the respective Windows binaries. (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correctly handle OS level EAGAIN return codes during non-blocking TLS I/O.
+      (markt)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Correct a potential performance problem identified by Nate Clark due to
+      Tomcat Native providing OpenSSL with thread identifiers poorly suited to
+      the hash function used by OpenSSL when selecting a bucket for the hash
+      that holds the per thread error data. Tomcat Native on Windows and on
+      Solaris were not affected. A fix has been applied for OSX and Linux. Other
+      platforms may still be affected. (markt/rjung)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.7">Changes in 1.2.7</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Update minimum recommended OpenSSL version to 1.0.2h. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.6">Changes in 1.2.6</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Change the OpenSSL version check in <code>configure</code>
+      to be fatal. (rjung)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Use new OpenSSL 1.1.0 protocol version max and min API
+      when creating a new SSL context. (rjung)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Improve renegotiation code and make it compatible with
+      OpenSSL 1.1.0. (rjung)
+    </li>
+    <li><img alt="Code: " class="icon" src="../images/code.gif">
+      OpenSSL 1.1.0 compatibility updates. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix some compiler warnings in native ssl code. (rjung)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for using Java keystores for certificate chains. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Remove the explicit CRL check when verifying certificates.
+      The checks were already part of the internal certification
+      verification since OpenSSL 0.9.7. Backport from mod_ssl.
+      (rjung)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.5">Changes in 1.2.5</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Enable OpenSSL version check in <code>configure</code> by
+      default. It can be turned off using
+      <code>--disable-openssl-version-check</code>. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=59024">59024</a>: Native function <code>versionString()</code> and
+      for OpenSSL 1.1.0 also <code>version()</code> (both in in ssl.c) now
+      return the OpenSSL run time version, not the compile time version.
+      (rjung)
+    </li>
+    <li><img alt="Code: " class="icon" src="../images/code.gif">
+      Track changes in the OpenSSL master branch so it is possible to build
+      Tomcat Native with that branch. (billbarker)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.4">Changes in 1.2.4</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      SSL.getHandshakeCount(), which was unused, now returns the handshake
+      completed count rather than the handshake started count. (remm)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.3">Changes in 1.2.3</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Remove Java classes that do not have C implementation code
+      for their native methods in the current library. They were
+      used for NPN support which is superseded by ALPN support
+      in the current code. (kkolinko)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix typo in declaration of a stub method used when the library is
+      compiled without OpenSSL support. (kkolinko)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix the signature of the implementation of the native SSL method
+      newSSL() in the case when OPENSSL is not available. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix the signature of the implementation of the native SSLSocket
+      method getInfoB() to return jbyteArray instead of jobject.
+      This is consistent with what it actually returns and how
+      the native Java method is declared. (rjung)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for using Java keystores for certificates and keys. (jfclere)
+    </li>
+    <li><img alt="Code: " class="icon" src="../images/code.gif">
+      Remove code that performs a read after a renegotiation that appears to be
+      unnecessary with OpenSSL 1.0.2. (billbarker)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Expose <code>SSL_renegotiate</code> to the Java API. (remm)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.2">Changes in 1.2.2</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix broken debug and maintainer mode build. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Forward port additional fixes to the OpenSSL I/O to align it with
+      non-OpenSSL I/O. (markt)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.1">Changes in 1.2.1</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      <a href="https://bz.apache.org/bugzilla/show_bug.cgi?id=58566">58566</a>: Enable Tomcat Native 1.2.x to work with Tomcat releases
+      that do not have the necessary Java code to support SNI. (markt)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      Minor rework of "buildconf" script. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix APR dependency version expression in RPM spec file. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix major library version number in Windows build files, RPM spec file
+      and build description. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Remove files "KEYS" and "download_deps.sh" from Windows (zip)
+      source distribution. (rjung)
+    </li>
+    <li><img alt="Fix: " class="icon" src="../images/fix.gif">
+      Fix "unused variable" compiler warning. (rjung)
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.2.0">Changes in 1.2.0</h3><div class="text">
+  <ul class="changelog">
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for TLS extension ALPN. (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for TLS extension SNI (Server Name Indication).
+      (markt)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add support for OpenSSL BIO. (jfclere)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Support wakeable pollsets and add Poll.interrupt() API.
+      (mturk)
+    </li>
+    <li><img alt="Add: " class="icon" src="../images/add.gif">
+      Add Pool.unmanaged() API. (mturk)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      APIs SSL.generateRSATempKey() and SSL.loadDSATempKey()
+      have been removed. (rjung)
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      The minimum required APR version is 1.4.3.
+    </li>
+    <li><img alt="Update: " class="icon" src="../images/update.gif">
+      The minimum required OpenSSL version is 1.0.2.
+    </li>
+  </ul>
+</div><h3 id="Changes_in_1.1.x">Changes in 1.1.x</h3><div class="text">
+<p>Please see the <a href="../../native-1.1-doc/miscellaneous/changelog.html">1.1.x
+   changelog</a>.</p>
+</div></div></div></div></div><footer><div id="footer">
+    Copyright &copy; 2008-2022, The Apache Software Foundation
+  </div></footer></div></body></html>
