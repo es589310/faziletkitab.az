@@ -34,6 +34,7 @@ public class ImageController {
         }
     }
 
+
     @Operation(summary = "Upload an image for a book", description = "Upload a single image file for a book.")
     @PostMapping(value = "/upload-image/{bookId}", consumes = "multipart/form-data")
     public ResponseEntity<Image> uploadImage(@Parameter(description = "Book ID", required = true) @PathVariable Long bookId,
@@ -45,6 +46,7 @@ public class ImageController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
 
     @DeleteMapping("/{imageId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)

@@ -35,7 +35,6 @@ public class ImageService {
             throw new IllegalStateException("Image already exists for bookId: " + bookId);
         });
 
-        // Fayl yoxlaması
         if (imageFile == null || imageFile.isEmpty()) {
             throw new ImageNotFoundException("Image file cannot be empty");
         }
@@ -64,7 +63,6 @@ public class ImageService {
             throw new IOException("Failed to upload image to S3: " + e.getMessage(), e);
         }
 
-        // S3 URL-ni al
         String imageUrl = s3Client.utilities().getUrl(GetUrlRequest.builder()
                 .bucket(bucketName)
                 .key(uniqueFileName)
@@ -73,7 +71,6 @@ public class ImageService {
             throw new IOException("Failed to generate S3 URL for file: " + uniqueFileName);
         }
 
-        // Verilənlər bazasına saxla
         Image image = new Image();
         image.setBookId(bookId);
         image.setImageUrl(imageUrl);

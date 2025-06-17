@@ -16,6 +16,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Table(name = "images")
 public class Image {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long imageId;
@@ -23,4 +24,5 @@ public class Image {
     private Long bookId;
     private String imageUrl;
     private LocalDateTime uploadedAt;
+
 }

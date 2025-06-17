@@ -9,5 +9,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageResponse {
+
     private String imageUrl;
+
 }
