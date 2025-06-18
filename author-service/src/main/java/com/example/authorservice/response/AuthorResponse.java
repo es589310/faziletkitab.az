@@ -10,8 +10,10 @@ import java.time.LocalDate;
 @Getter
 @Setter
 public class AuthorResponse{
+
     private Long authorId;
     private String name;
     private String biography;
     private String birthDate;
+
 }

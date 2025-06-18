@@ -18,7 +18,7 @@ import java.util.List;
 public class AuthorController {
     private final AuthorService authorService;
 
-    @PostMapping()
+    @PostMapping("/createAuthor")
     public ResponseEntity<AuthorResponse> addAuthor(@RequestBody AuthorRequest authorRequest){
         try {
             AuthorResponse authorResponse = authorService.addAuthor(authorRequest);

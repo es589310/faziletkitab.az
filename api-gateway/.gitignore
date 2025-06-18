@@ -40,3 +40,6 @@ out/
 docker
 volume-data
 .qodo
+
+
+.env

@@ -34,9 +34,9 @@ dependencies {
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
     //swagger open
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.4' //spring boot 3.3.3 openapi 2.7.0 ilə işləmədi
-    //#json olaraq göstərir dataları
-    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.8.4' //spring boot 3.3.3 openapi 2.7.0 ilə işləmədi
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.4'
+    //#json
+    implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.8.4'
 
     //mapstruct
     implementation 'org.mapstruct:mapstruct:1.5.5.Final'

@@ -34,19 +34,6 @@ public class CatalogService {
     private final CategoryClient categoryClient;
     private final ImageClient imageClient;
 
-    @Cacheable("books")
-    public Page<CatalogResponse> allBooks(Pageable pageable) {
-        long startTime = System.currentTimeMillis();
-        log.info("Fetching all books, page: {}, size: {}", pageable.getPageNumber(), pageable.getPageSize());
-
-        Page<Catalog> catalogPage = catalogRepository.findAll(pageable);
-        Page<CatalogResponse> catalogResponsePage = catalogPage.map(this::mapToResponseWithDetails);
-
-        long endTime = System.currentTimeMillis();
-        log.info("Books fetched successfully. Duration: {} ms, Total books: {}", endTime - startTime, catalogResponsePage.getTotalElements());
-        return catalogResponsePage;
-    }
-
     private CatalogResponse mapToResponseWithDetails(Catalog catalog) {
         CatalogResponse response = catalogMapper.toResponse(catalog);
 
@@ -65,11 +52,27 @@ public class CatalogService {
         return response;
     }
 
+
+    @Cacheable("books")
+    public Page<CatalogResponse> allBooks(Pageable pageable) {
+        long startTime = System.currentTimeMillis();
+        log.info("Fetching all books, page: {}, size: {}", pageable.getPageNumber(), pageable.getPageSize());
+
+        Page<Catalog> catalogPage = catalogRepository.findAll(pageable);
+        Page<CatalogResponse> catalogResponsePage = catalogPage.map(this::mapToResponseWithDetails);
+
+        long endTime = System.currentTimeMillis();
+        log.info("Books fetched successfully. Duration: {} ms, Total books: {}", endTime - startTime, catalogResponsePage.getTotalElements());
+        return catalogResponsePage;
+    }
+
+
     public CatalogResponse findBookId(Long id) {
         Catalog catalog = catalogRepository.findById(id)
                 .orElseThrow(() -> new CatalogNotFoundException("Kitab tapılmadı: " + id));
         return mapToResponseWithDetails(catalog);
     }
+
 
     public CatalogResponse addBook(@Valid CatalogRequest catalogRequest) {
         Catalog catalog = catalogMapper.toEntity(catalogRequest);
@@ -77,6 +80,7 @@ public class CatalogService {
         log.info("Book added: {}", savedCatalog.getTitle());
         return mapToResponseWithDetails(savedCatalog);
     }
+
 
     public CatalogResponse updateBook(Long id, @Valid CatalogRequest catalogRequest) {
         Catalog existingCatalog = catalogRepository.findById(id)
@@ -91,6 +95,7 @@ public class CatalogService {
         return mapToResponseWithDetails(updatedCatalog);
     }
 
+
     public void deleteBook(Long id) {
         Catalog existingCatalog = catalogRepository.findById(id)
                 .orElseThrow(() -> new CatalogNotFoundException("Kitab tapılmadı: " + id));
@@ -98,7 +103,9 @@ public class CatalogService {
         log.info("Book deleted: {}", id);
     }
 
-    // Əlavə edilən metodlar
+
+
+
     public AuthorDTO getAuthorDetails(Long authorId) {
         if (authorId == null) {
             throw new IllegalArgumentException("Müəllif ID-si boş ola bilməz");

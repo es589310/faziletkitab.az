@@ -6,7 +6,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -15,10 +14,12 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @Table(name = "authors")
 public class Author {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long authorId;
     private String name;
     private String biography;
     private String birthDate;
+
 }

@@ -13,17 +13,14 @@ import java.util.Map;
 @SpringBootApplication
 public class CategoryServiceApplication {
 	public static void main(String[] args) {
-		// .env faylını yüklə
 		Dotenv dotenv = Dotenv.configure().ignoreIfMissing().load();
 
-		// Mühit dəyişənlərini sistemə yaz
 		Map<String, Object> envMap = new HashMap<>();
 		dotenv.entries().forEach(entry -> {
 			System.setProperty(entry.getKey(), entry.getValue());
 			envMap.put(entry.getKey(), entry.getValue());
 		});
 
-		// Dəyərləri çap et
 		System.out.println("DB_USERNAME: " + System.getProperty("DB_USERNAME"));
 		System.out.println("DB_PASSWORD: " + System.getProperty("DB_PASSWORD"));
 		System.out.println("DB_HOST: " + System.getProperty("DB_HOST"));
@@ -31,11 +28,9 @@ public class CategoryServiceApplication {
 		System.out.println("DB_NAME: " + System.getProperty("DB_NAME"));
 		System.out.println("SWAGGER_ENABLED: " + System.getProperty("SWAGGER_ENABLED"));
 
-		// Spring tətbiqini işə sal
 		SpringApplication app = new SpringApplication(CategoryServiceApplication.class);
 		ConfigurableApplicationContext context = app.run(args);
 
-		// Mühit dəyişənlərini Spring Environment-ə əlavə et
 		ConfigurableEnvironment environment = context.getEnvironment();
 		environment.getPropertySources().addFirst(new MapPropertySource("dotenvProperties", envMap));
 	}

@@ -7,6 +7,7 @@ import lombok.Data;
 
 @Data
 public class CatalogRequest {
+
     @NotBlank(message = "Başlıq boş ola bilməz")
     private String title;
     private String description;
@@ -17,4 +18,5 @@ public class CatalogRequest {
     private Long authorId;
     @NotNull(message = "Kateqoriya ID-si boş ola bilməz")
     private Long categoryId;
+
 }
