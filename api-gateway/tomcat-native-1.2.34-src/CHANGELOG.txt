@@ -1,0 +1,364 @@
+  Preface
+
+   This is the Changelog for Tomcat Native 1.2.
+
+  Changes in 1.2.34
+
+     * Code: Refactor library initialization so it is compatible with Tomcat
+       10.1.x onwards where a number of Java classes have been removed.
+       (markt)
+     * Add: Map the OpenSSL 3.x FIPS behaviour to the OpenSSL 1.x API to
+       allow clients to determine if the FIPS provider is being used when
+       Tomcat Native is compiled against OpenSSL 3.x. (markt)
+
+  Changes in 1.2.33
+
+     * Fix: 66035: Fix crash when attempting to read TLS session ID after a
+       handshake failure. (schultz/markt)
+     * Fix: Enable download_deps.sh to be called from any directory. Pull
+       request #12 provided by Dimitrios Soumis. (markt)
+     * Update: Update recommended OpenSSL version to 1.1.1o or later. (markt)
+
+  Changes in 1.2.32
+
+     * Update: Update recommended OpenSSL version to 1.1.1n or later. (markt)
+     * Fix: Fix release script so it works with the current git layout.
+       (markt)
+
+  Changes in 1.2.31
+
+     * Fix: 65441: Correct previous fix that enabled building to continue
+       with OpenSSL 3.x. Patch provided by lzsiga. (markt)
+     * Fix: 65659: Remove remaining reference to pkg-config which is no
+       longer included in the Tomcat Native distribution. (markt)
+
+  Changes in 1.2.30
+
+     * Add: 65181: Additional changes required to provided support for using
+       OpenSSL Engines that use proprietary key formats. Based on a patch
+       provided by Edin Hodzic. (markt)
+     * Fix: 65329: Correct handling of WINVER in make file to use correct
+       constant for Windows 7. Add constants for Windows 8, Windows 8.1 and
+       Windows 10. Rename WINNT to WIN2k as it is used for Windows 2000
+       upwards, not Windows NT upwards. (markt)
+
+  Changes in 1.2.29 (not released)
+
+     * Fix: Add a patch for APR that fixes an issue where some Windows
+       systems in some configurations would only listen on IPv6 addresses on
+       dual stack systems even though configured to listen on both IPv6 and
+       IPv4 addresses. (michaelo)
+
+  Changes in 1.2.28
+
+     * Fix: Correct a regression in the fix for 65181 that prevented an error
+       message from being displayed if an invalid key file was provided and
+       no OpenSSL Engine was configured. (markt)
+
+  Changes in 1.2.27
+
+     * Add: 65181: Improve support for using OpenSSL Engines that use
+       proprietary key formats. Patch provided by Edin Hodzic. (markt)
+     * Update: Update recommended OpenSSL version to 1.1.1k or later. (markt)
+
+  Changes in 1.2.26
+
+     * Fix: Enable building to continue against OpenSSL 3.x and 1.1.1.
+       (markt)
+     * Add: 64942: Expose support for Unix Domain Sockets in APR v1.6 and up.
+       (minfrin)
+     * Update: Update recommended OpenSSL version to 1.1.1i or later. (markt)
+
+  Changes in 1.2.25
+
+     * Fix: Incomplete name mangling fix for C++ compilers in tcn_api.h.
+       (michaelo)
+     * Update: Improve OS-specific header include for native thread id.
+       (michaelo)
+     * Fix: Disable keylog callback support for LibreSSL. (michaelo)
+     * Add: Add support for SSLContext.addChainCertificateRaw() with LibreSSL
+       2.9.1 and up. (michaelo)
+     * Add: Add support for HP-UX's _lwp_self() in our ssl_thread_id(void).
+       (michaelo) Remove default option passed for rpath to linker on HP-UX.
+       (michaelo)
+     * Add: Add an option to allow the OCSP responder check to be bypassed.
+       Note that if OCSP is enabled, a missing responder is now treated as an
+       error. (jfclere)
+     * Fix: 64429: Fix compilation with LibreSSL. (markt)
+
+  Changes in 1.2.24
+
+     * Fix: 63671: libtcnative does not compile with OpenSSL < 1.1.0 and APR
+       w/o threading support. (michaelo)
+     * Fix: Correct configure message for OpenSSL libdir. (michaelo)
+     * Update: 64260: Clean up install target. (michaelo)
+     * Fix: 64315: configure output for OpenSSL wrong/incomplete sometimes.
+       (michaelo)
+     * Update: Drop obsolete build time workarounds for HP-UX. (michaelo)
+     * Add: Add support for FreeBSD's pthread_getthreadid_np() in our
+       ssl_thread_id(void). (michaelo)
+     * Update: 63701: Use new OpenSSL initialisation process when building
+       with OpenSSL 1.1.0 onwards. (mturk)
+     * Add: 64316: Introduce tcn_get_thread_id(void) to reduce code
+       duplication. (michaelo)
+     * Fix: Fix linking against OpenSSL in non-standard locations on FreeBSD.
+       (michaelo)
+
+  Changes in 1.2.23
+
+     * Fix: Make file fixes to enable building with APR 1.7.x. (markt)
+     * Fix: Switch to Windows 7 as the default target. (markt)
+     * Update: Update minimum OpenSSL version to 1.0.2r. (markt)
+
+  Changes in 1.2.22
+
+     * Fix: 63159: Unable to complete build when build directory is outside
+       of the source tree. Patch provided by Bob Huemmer. (markt)
+     * Fix: 63356: Fix client certificate authentication when a certificate
+       contains an AIA extension without an OCSP URI. Patch provided by
+       Milind Takawale. (markt)
+     * Fix: 63500: Fix JVM crash on Connector start when a certificate
+       revocation file or path is specified for OpenSSL. (markt)
+     * Add: Add support for TLS key logging when using OpenSSL 1.1.1 or
+       later. If the environment variable SSLKEYLOGFILE is set then the TLS
+       keys will be logged to that file. Patch provided by John Kelly.
+       (markt)
+     * Fix: Update build script after migration of soucre repository from
+       Subversion to Git. (markt)
+
+  Changes in 1.2.21
+
+     * Fix: Correct a possible JVM crash during shutdown caused by a bug in
+       the fix for the per connection memory leak included in 1.2.20. (rjung)
+
+  Changes in 1.2.20
+
+     * Fix: Update includedir name to tomcat-native instead of apr.
+       (csutherl)
+     * Fix: Fix a minor memory leak. It occurred every time a TLS connector
+       was started so the impact was very unlikely to be noticed. (markt)
+     * Fix: Fix some minor memory leaks that could occur after error
+       conditions during TLS connector initialisation. (markt)
+     * Fix: Fix a per connection memory leak when using OpenSSL BIO. This is
+       typically used when OpenSSL is providing the TLS support for NIO or
+       NIO2. (markt)
+
+  Changes in 1.2.19
+
+     * Fix: 62892: Fix memory leaks in OCSP handling. (jfclere)
+     * Fix: 62944: Fix copy/paste error that prevented TLS 1.0 and TLS 1.1
+       from being used if TLS 1.3 was available. Patch provided by Dean
+       Rasheed. (markt)
+     * Fix: Include OpenSSL licensing information in the Tomcat Native
+       binaries for Windows that are built with OpenSSL. (markt)
+     * Update: Update recommended OpenSSL version to 1.0.2q or later. (markt)
+
+  Changes in 1.2.18
+
+     * Fix: 62641: libtool invocations should use --tag=CC. (michaelo)
+     * Code: Remove support for Netware as there has not been a supported
+       Netware platform for a number of years. (markt)
+     * Add: 62748: Add support for TLS 1.3 when built with OpenSSL 1.1.1 or
+       equivalent. (schultz/markt)
+     * Add: Expose the API necessary for CLIENT-CERT authentication to be
+       correctly supported when using Tomcat's JSSE implementation backed by
+       OpenSSL. (markt)
+
+  Changes in 1.2.17
+
+     * Fix: 62094: Certificate verification using CRL with Tomcat APR
+       connector does not work. (jfclere)
+     * Fix: 62122: undefined symbol: SSL_COMP_free_compression_methods.
+       (jfclere)
+     * Fix: 62221: OCSP response processing uses always the first entry in
+       the response. (jfclere)
+     * Fix: Further clean-up in the OCSP extension logic. (jfclere)
+
+  Changes in 1.2.16
+
+     * Fix: Further clean-up in the parsing of the OCSP extension. (markt)
+
+  Changes in 1.2.15
+
+     * Update: Update recommended OpenSSL version to 1.0.2m. (markt)
+     * Fix: Correctly calculate field lengths when parsing the OCSP extension
+       so that longer values are read correctly. (markt)
+     * Update: Update the recommended APR version to 1.6.3 or later. (markt)
+
+  Changes in 1.2.14
+
+     * Fix: Fix a small memory leak during certificate initialization.
+       (rjung)
+     * Fix: Replace use of deprecated ASN1_STRING_data with
+       ASN1_STRING_get0_data when building against OpenSSL 1.1.0 and newer.
+       (rjung)
+     * Fix: Fix a thread local key leak. Only relevant when doing
+       SSL.initialize() and Library.terminate() a lot of times. (rjung)
+
+  Changes in 1.2.13
+
+     * Fix: Add missing source files to Visual Studio project files. (wrowe)
+     * Add: Add support for the OpenSSL SSL_CONF API. (rjung)
+     * Add: Add SSLContext.getCiphers(). (rjung)
+     * Add: Add method to add a single CA certificate to the list of CA
+       certificates which are accepted as issuers of client certificates.
+       (rjung)
+     * Fix: Fix an error not announcing the correct CA list for client
+       certificates during TLS handshake. (rjung)
+     * Fix: Fix renegotiation to obtain a client certificate from a user
+       agent. (markt)
+     * Fix: 58434: Allow Tomcat Native to be compiled with LibreSSL. Note
+       that some features may not be available when using LibreSSL. (markt)
+     * Fix: 60290: When building Tomcat Native, don't ignore the value of CC
+       if explicitly set. Patch provided by Michael Osipov. (markt)
+     * Fix: 60301: When building Tomcat Native, allow the user to override
+       the libtool specified by APR by setting the LIBTOOL environment
+       variable. (markt)
+     * Update: Update build to use APR 1.6.x, with 1.6.2 recommended. (markt)
+     * Update: Update recommended OpenSSL version to 1.0.2l. (markt)
+
+  Changes in 1.2.12
+
+     * Fix: Correct a regression in the fix for 59797 that triggered a JVM
+       crash on shutdown in some Tomcat unit tests when using the APR/native
+       connector. (markt)
+
+  Changes in 1.2.11
+
+     * Fix: 52627: Prevent a crash in File.infoGet() caused by the use of
+       uninitialised variables. Based on patch by Ilya Maykov. (markt)
+     * Fix: 55113: Document the process for creating a static tc-native
+       library with a FIPS-enabled OpenSSL and update the nmake make file to
+       support the process. (markt)
+     * Fix: 55114: Clean up building instructions for the native component
+       and expand the instructions for building for Windows platforms.
+       (markt)
+     * Fix: 55938: Resolve remaining clang-analyzer warnings. Note that the
+       use of -1 to indicate the full array in File.(read|write)[Full] has
+       been removed since it was only partially implemented and the
+       implementation was faulty. (markt)
+     * Fix: 58082: Update unit tests to use JUnit 4. Refactor unit tests into
+       separate tests and use an external to reference them in the same way
+       an external is used to reference the main code. (markt)
+     * Fix: 59797: Ensure that the per thread error hash maintained by
+       OpenSSL is cleaned up as individual threads exit to ensure it does not
+       grow too large. Patch provided by Nate Clark. (markt)
+     * Fix: 59996: Correctly handle building tc-native on a 64-bit system
+       when using an OpenSSL distribution that is not in /usr. (csutherl)
+     * Fix: 60388: The --disable-maintainer-mode option of the configure
+       script no longer enables the maintainer mode. (ebourg)
+     * Update: Update minimum recommended OpenSSL version to 1.0.2k. (markt)
+
+  Changes in 1.2.10
+
+     * Update: Update minimum recommended OpenSSL version to 1.0.2j. (markt)
+
+  Changes in 1.2.9
+
+     * Update: Update minimum recommended OpenSSL version to 1.0.2i. (markt)
+
+  Changes in 1.2.8
+
+     * Fix: 59616: Correct the Windows build files so that OCSP is correctly
+       enabled and disabled in the respective Windows binaries. (markt)
+     * Fix: Correctly handle OS level EAGAIN return codes during non-blocking
+       TLS I/O. (markt)
+     * Fix: Correct a potential performance problem identified by Nate Clark
+       due to Tomcat Native providing OpenSSL with thread identifiers poorly
+       suited to the hash function used by OpenSSL when selecting a bucket
+       for the hash that holds the per thread error data. Tomcat Native on
+       Windows and on Solaris were not affected. A fix has been applied for
+       OSX and Linux. Other platforms may still be affected. (markt/rjung)
+
+  Changes in 1.2.7
+
+     * Update: Update minimum recommended OpenSSL version to 1.0.2h. (markt)
+
+  Changes in 1.2.6
+
+     * Update: Change the OpenSSL version check in configure to be fatal.
+       (rjung)
+     * Update: Use new OpenSSL 1.1.0 protocol version max and min API when
+       creating a new SSL context. (rjung)
+     * Update: Improve renegotiation code and make it compatible with OpenSSL
+       1.1.0. (rjung)
+     * Code: OpenSSL 1.1.0 compatibility updates. (rjung)
+     * Fix: Fix some compiler warnings in native ssl code. (rjung)
+     * Add: Add support for using Java keystores for certificate chains.
+       (markt)
+     * Update: Remove the explicit CRL check when verifying certificates. The
+       checks were already part of the internal certification verification
+       since OpenSSL 0.9.7. Backport from mod_ssl. (rjung)
+
+  Changes in 1.2.5
+
+     * Update: Enable OpenSSL version check in configure by default. It can
+       be turned off using --disable-openssl-version-check. (rjung)
+     * Fix: 59024: Native function versionString() and for OpenSSL 1.1.0 also
+       version() (both in in ssl.c) now return the OpenSSL run time version,
+       not the compile time version. (rjung)
+     * Code: Track changes in the OpenSSL master branch so it is possible to
+       build Tomcat Native with that branch. (billbarker)
+
+  Changes in 1.2.4
+
+     * Fix: SSL.getHandshakeCount(), which was unused, now returns the
+       handshake completed count rather than the handshake started count.
+       (remm)
+
+  Changes in 1.2.3
+
+     * Fix: Remove Java classes that do not have C implementation code for
+       their native methods in the current library. They were used for NPN
+       support which is superseded by ALPN support in the current code.
+       (kkolinko)
+     * Fix: Fix typo in declaration of a stub method used when the library is
+       compiled without OpenSSL support. (kkolinko)
+     * Fix: Fix the signature of the implementation of the native SSL method
+       newSSL() in the case when OPENSSL is not available. (rjung)
+     * Fix: Fix the signature of the implementation of the native SSLSocket
+       method getInfoB() to return jbyteArray instead of jobject. This is
+       consistent with what it actually returns and how the native Java
+       method is declared. (rjung)
+     * Add: Add support for using Java keystores for certificates and keys.
+       (jfclere)
+     * Code: Remove code that performs a read after a renegotiation that
+       appears to be unnecessary with OpenSSL 1.0.2. (billbarker)
+     * Add: Expose SSL_renegotiate to the Java API. (remm)
+
+  Changes in 1.2.2
+
+     * Fix: Fix broken debug and maintainer mode build. (rjung)
+     * Fix: Forward port additional fixes to the OpenSSL I/O to align it with
+       non-OpenSSL I/O. (markt)
+
+  Changes in 1.2.1
+
+     * Fix: 58566: Enable Tomcat Native 1.2.x to work with Tomcat releases
+       that do not have the necessary Java code to support SNI. (markt)
+     * Update: Minor rework of "buildconf" script. (rjung)
+     * Fix: Fix APR dependency version expression in RPM spec file. (rjung)
+     * Fix: Fix major library version number in Windows build files, RPM spec
+       file and build description. (rjung)
+     * Fix: Remove files "KEYS" and "download_deps.sh" from Windows (zip)
+       source distribution. (rjung)
+     * Fix: Fix "unused variable" compiler warning. (rjung)
+
+  Changes in 1.2.0
+
+     * Add: Add support for TLS extension ALPN. (markt)
+     * Add: Add support for TLS extension SNI (Server Name Indication).
+       (markt)
+     * Add: Add support for OpenSSL BIO. (jfclere)
+     * Add: Support wakeable pollsets and add Poll.interrupt() API. (mturk)
+     * Add: Add Pool.unmanaged() API. (mturk)
+     * Update: APIs SSL.generateRSATempKey() and SSL.loadDSATempKey() have
+       been removed. (rjung)
+     * Update: The minimum required APR version is 1.4.3.
+     * Update: The minimum required OpenSSL version is 1.0.2.
+
+  Changes in 1.1.x
+
+   Please see the 1.1.x changelog.
+
+   Copyright © 2008-2022, The Apache Software Foundation

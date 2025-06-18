@@ -3,6 +3,8 @@ package com.example.catalogservice.config;
 import com.example.catalogservice.client.AuthorClient;
 import com.example.catalogservice.client.CategoryClient;
 import com.example.catalogservice.client.ImageClient;
+import jakarta.annotation.PostConstruct;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.http.client.ClientHttpRequestFactoryBuilder;
 import org.springframework.boot.http.client.ClientHttpRequestFactorySettings;
@@ -16,6 +18,7 @@ import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import java.time.Duration;
 
 @Configuration
+@Slf4j
 public class RestClientConfig {
 
     @Value("${authors.service.url}")
@@ -26,6 +29,13 @@ public class RestClientConfig {
 
     @Value("${image.service.url}")
     private String imageServiceUrl;
+
+    @PostConstruct
+    public void logProperties() {
+        log.info("author.service.url: {}", authorServiceUrl);
+        log.info("categories.service.url: {}", categoryServiceUrl);
+        log.info("image.service.url: {}", imageServiceUrl);
+    }
 
     @Bean
     public AuthorClient authorClient() {

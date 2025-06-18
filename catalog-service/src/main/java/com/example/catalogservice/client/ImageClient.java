@@ -14,13 +14,13 @@ public interface ImageClient {
 
     Logger log = LoggerFactory.getLogger(ImageClient.class);
 
-    @GetExchange("/api/images/{imageId}")
+    @GetExchange("/api/images/{bookId}")
     @CircuitBreaker(name = "image", fallbackMethod = "fallbackMethod")
     @Retry(name = "image")
-    ImageResponse getImageId(@PathVariable("imageId") Long imageId);
+    ImageResponse getImageByBookId(@PathVariable("bookId") Long bookId);
 
     default ImageResponse fallbackMethod(Long imageId, Throwable throwable) {
-        log.info("Cannot get image id {}, failure reason: {}", imageId, throwable.getMessage());
-        return new ImageResponse();
+        log.warn("Cannot get image for imageId {}, failure reason: {}", imageId, throwable.getMessage());
+        return new ImageResponse("https://fazilet-image-bucket.s3.us-east-1.amazonaws.com/default-image.jpg");
     }
 }

@@ -50,16 +50,10 @@ public class CategoryService {
     public CategoryResponse addCategoryInfo(CategoryRequest categoryRequest){
         try {
             log.info("Kategoriya əlavə edilmək üçün işə başlanılır!-53");
-//            if (catalogId == null){
-//                throw new IllegalAccessException("Catalog id-si yoxdur! (Sətr 54/Servis");
-//            }
-            log.error("1");
             Category addCategory = categoryMapper.toEntity(categoryRequest);
             log.info("Kategoriya mapper ilə requestdən entity-ə ötürüldü - 55");
-            log.error("2");
             Category saveCategory = categoryRepository.save(addCategory);
             log.info("Kategoriya repoya save olundu - 55");
-            log.error("3");
             return categoryMapper.toResponse(saveCategory);
         }catch (Exception e){
             log.error("Kateqoriyanı əlavə edərkən xəta oldu - 63: {}",e.getMessage());

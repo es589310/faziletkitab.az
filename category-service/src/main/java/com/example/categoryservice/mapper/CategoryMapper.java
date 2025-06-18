@@ -22,11 +22,4 @@ public interface CategoryMapper {
     @Mapping(target = "categoryDescription", source = "categoryDescription")
     CategoryResponse toResponse(Category category);
 
-    //CategoryRequest-dən Category-yə - update zamanı istənilən dəyişim üçün buradan dəyişiklik edə bilərsən
-//    @Mapping(target = "categoryId", source = "categoryId")
-//    @Mapping(target = "categoryName", source = "categoryName")
-//    @Mapping(target = "categoryDescription", source = "categoryDescription")
-//    CategoryResponse toEntityForUpdate(Category category);
-
-
 }

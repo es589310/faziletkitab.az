@@ -21,9 +21,6 @@ public class AuthorService {
 
     public AuthorResponse addAuthor(AuthorRequest authorRequest){
         try {
-//            if (bookId == null){
-//                throw new IllegalArgumentException("Kitab id-si yoxdur! (Sətr 23/Servis");
-//            }
             log.info("Yazar məlumatları set olunacaq!");
             Author newAuthor = authorMapper.toEntity(authorRequest);
 

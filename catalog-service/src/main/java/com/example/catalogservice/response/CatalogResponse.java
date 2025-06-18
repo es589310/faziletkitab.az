@@ -6,6 +6,7 @@ import lombok.Data;
 
 @Data
 public class CatalogResponse {
+
     private Long id;
     private String title;
     private String description;
@@ -14,4 +15,5 @@ public class CatalogResponse {
     private Double price;
     private String imageUrl;
     private String publishedDate;
+
 }

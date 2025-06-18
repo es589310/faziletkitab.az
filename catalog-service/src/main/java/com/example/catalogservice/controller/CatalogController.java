@@ -44,6 +44,7 @@ public class CatalogController {
         }
     }
 
+
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
     public CatalogResponse findBookId(@PathVariable Long id){
@@ -58,6 +59,7 @@ public class CatalogController {
         }
     }
 
+
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public CatalogResponse addBook(@RequestBody CatalogRequest catalogRequest){
@@ -66,6 +68,7 @@ public class CatalogController {
         log.info("Yeni Kataloq əlavə edildi. Kataloq adı: {}", catalogRequest.getTitle());
         return catalogResponse;
     }
+
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
@@ -76,6 +79,7 @@ public class CatalogController {
         return catalogResponse;
     }
 
+
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteBook(@PathVariable Long id){
@@ -83,6 +87,8 @@ public class CatalogController {
         catalogService.deleteBook(id);
         log.info("Kataloq silindi. Kataloq ID: {}", id);
     }
+
+
 
     @GetMapping("/author/{authorId}")
     public ResponseEntity<AuthorDTO> getAuthorDetails(@PathVariable Long authorId) {

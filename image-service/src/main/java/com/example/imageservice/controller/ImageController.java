@@ -2,6 +2,7 @@ package com.example.imageservice.controller;
 
 import com.example.imageservice.entity.Image;
 import com.example.imageservice.exception.ImageNotFoundException;
+import com.example.imageservice.response.ImageResponse;
 import com.example.imageservice.service.ImageService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -20,6 +21,20 @@ public class ImageController {
 
     private final ImageService imageService;
 
+    @GetMapping("/{bookId}")
+    @ResponseStatus(HttpStatus.OK)
+    public ResponseEntity<ImageResponse> getImagesByBookId(@PathVariable Long bookId){
+        try {
+            Image getImages = imageService.getImageByBookId(bookId);
+            ImageResponse imageResponse = new ImageResponse(getImages.getImageUrl());
+            return ResponseEntity.ok(imageResponse);
+        }catch (ImageNotFoundException e){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body(new ImageResponse("This bookId does not exist"));
+        }
+    }
+
+
     @Operation(summary = "Upload an image for a book", description = "Upload a single image file for a book.")
     @PostMapping(value = "/upload-image/{bookId}", consumes = "multipart/form-data")
     public ResponseEntity<Image> uploadImage(@Parameter(description = "Book ID", required = true) @PathVariable Long bookId,
@@ -32,16 +47,6 @@ public class ImageController {
         }
     }
 
-    @GetMapping("/{bookId}")
-    @ResponseStatus(HttpStatus.OK)
-    public ResponseEntity<Image> getImagesByBookId(@PathVariable Long bookId){
-        try {
-            Image getImages = imageService.getImagesByBookId(bookId);
-            return ResponseEntity.ok(getImages);
-        }catch (ImageNotFoundException e){
-            throw new ImageNotFoundException("Şəkil tapılmadı!");
-        }
-    }
 
     @DeleteMapping("/{imageId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
