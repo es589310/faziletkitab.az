@@ -24,10 +24,8 @@ public class AuthorService {
             log.info("Yazar məlumatları set olunacaq!");
             Author newAuthor = authorMapper.toEntity(authorRequest);
 
-            log.error("Servis/Sətr 30");
             Author savedAuthor = repository.save(newAuthor);
 
-            log.error("Servis/Sətr 33");
             return authorMapper.toResponse(savedAuthor);
         }catch (AuthorNotFoundException e){
             log.error("Servis/Sətr 36 : {}", e.getMessage());
