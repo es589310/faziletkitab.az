@@ -1,12 +1,49 @@
 services:
   postgresql:
     image: postgres:16
-    container_name: image_service
+    container_name: image_postgres
     ports:
-      - "5435:5432"
+      - "${DB_PORT_EXTERNAL:-5435}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_DB: ${POSTGRES_DB}
     volumes:
-      - ./order-data:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - bookstore-network
+
+  image-service:
+    image: image-service:latest
+    container_name: image-service
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8082"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://${DB_HOST}:${DB_PORT}/${DB_NAME}
+      - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
+      - AWS_S3_BUCKET=${AWS_S3_BUCKET}
+      - AWS_REGION=${AWS_REGION}
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - SPRINGDOC_SWAGGER-UI_ENABLED=${SWAGGER_ENABLED}
+    depends_on:
+      - postgresql
+    networks:
+      - bookstore-network
+
+
+networks:
+  bookstore-network:
+    driver: bridge
+
+volumes:
+  postgres_data:
