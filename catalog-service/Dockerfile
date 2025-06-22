@@ -1,11 +1,5 @@
-# 1. Temel imaj: Java 17 kullanıyoruz
 FROM openjdk:17-jdk-slim
-
-# 2. Çalışma dizinini belirtiyoruz
 WORKDIR /app
-
-# 3. Gradle ile oluşturulan JAR dosyasını kopyalıyoruz
-COPY build/libs/catalog-service-0.0.1-SNAPSHOT.jar app.jar
-
-# 4. Container çalıştığında uygulamayı başlatıyoruz
+COPY target/catalog-service-0.0.1-SNAPSHOT.jar app.jar
+EXPOSE 8085
 ENTRYPOINT ["java", "-jar", "app.jar"]
