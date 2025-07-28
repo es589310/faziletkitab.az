@@ -1,4 +1,4 @@
-package com.example.catalogservice.config;
+/*package com.example.catalogservice.config;
 
 import com.example.catalogservice.entity.Catalog;
 import org.springframework.context.annotation.Bean;
@@ -24,4 +24,4 @@ public class WebConfig implements WebMvcConfigurer {
         return new PagedResourcesAssembler<>(new HateoasPageableHandlerMethodArgumentResolver(), uriComponents);
     }
 
-}
+}*/
