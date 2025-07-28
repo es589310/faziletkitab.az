@@ -38,7 +38,7 @@ services:
 
 networks:
   bookstore-network:
-    driver: bridge
+    external: true
 
 volumes:
   postgres_data:
