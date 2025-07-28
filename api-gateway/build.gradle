@@ -1,11 +1,7 @@
-plugins{
-    id 'java'
-    id 'org.springframework.boot' version '3.4.2'
-    id 'io.spring.dependency-management' version '1.1.7'
-}
-
-ext {
-	springCloudVersion = "2024.0.0"
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.4.2'
+	id 'io.spring.dependency-management' version '1.1.7'
 }
 
 group = 'com.bookstore'
@@ -22,24 +18,51 @@ repositories {
 }
 
 dependencies {
+	// Spring Boot Starters
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
-	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
-	implementation 'org.springframework.cloud:spring-cloud-starter-gateway-mvc'
+
+	// OAuth2 və Security
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+	implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+
+	// Resilience4j
+	implementation 'io.github.resilience4j:resilience4j-spring-boot3:2.2.0'
+	implementation 'io.github.resilience4j:resilience4j-circuitbreaker:2.2.0'
+	implementation 'io.github.resilience4j:resilience4j-timelimiter:2.2.0'
+	implementation 'io.github.resilience4j:resilience4j-retry:2.2.0'
+
+	// SpringDoc OpenAPI (Swagger)
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
-	testImplementation 'org.springdoc:springdoc-openapi-starter-webmvc-api:2.8.4'
+
+	// Apache HttpComponents (RestTemplate üçün)
+	implementation 'org.apache.httpcomponents.client5:httpclient5:5.4.4'
+	implementation 'org.apache.httpcomponents.core5:httpcore5:5.3.4'
+
+	// Validation
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
+
+	// Test dependencies
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+	//Detonv
 	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
 }
 
 dependencyManagement {
 	imports {
-		mavenBom "org.springframework.cloud:spring-cloud-dependencies:$springCloudVersion"
+		mavenBom "org.springframework.cloud:spring-cloud-dependencies:2024.0.0"
 	}
 }
 
 tasks.named('test') {
 	useJUnitPlatform()
 }
+
+
+
+

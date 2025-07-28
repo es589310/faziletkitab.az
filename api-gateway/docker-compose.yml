@@ -1,33 +1,67 @@
 services:
   keycloak-mysql:
-    container_name: keycloak-mysql
-    image: mysql:8
+    image: mysql:8.4
     volumes:
-      - mysql_keycloak_data:/var/lib/mysql
+      - keycloak-mysql-data:/var/lib/mysql
     environment:
-      MYSQL_ROOT_PASSWORD: "${MYSQL_ROOT_PASSWORD}"
-      MYSQL_DATABASE: "${MYSQL_DATABASE}"
-      MYSQL_USER: "${MYSQL_USER}"
-      MYSQL_PASSWORD: "${MYSQL_PASSWORD}"
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: keycloak
+      MYSQL_USER: keycloak
+      MYSQL_PASSWORD: Y4vT8RxPL9mW2kJ
+    ports:
+      - "3307:3306"
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - bookstore-network
 
   keycloak:
+    image: quay.io/keycloak/keycloak:24.0.3
     container_name: keycloak
-    image: quay.io/keycloak/keycloak:24.0.1
-    command: ["start-dev", "--import-realm"]
-    environment:
-      DB_VENDOR: MYSQL
-      DB_ADDR: "${KEYCLOAK_DB_ADDR}"
-      DB_DATABASE: "${KEYCLOAK_DB_DATABASE}"
-      DB_USER: "${KEYCLOAK_DB_USER}"
-      DB_PASSWORD: "${KEYCLOAK_DB_PASSWORD}"
-      KEYCLOAK_ADMIN: "${KEYCLOAK_ADMIN}"
-      KEYCLOAK_ADMIN_PASSWORD: "${KEYCLOAK_ADMIN_PASSWORD}"
     ports:
-      - "${KEYCLOAK_PORT}:8080"  # Default dəyəri .env-də təyin edirik
+      - "8181:8080"
+    environment:
+      - KEYCLOAK_ADMIN=admin
+      - KEYCLOAK_ADMIN_PASSWORD=Z6xN3QwTP8mL2kJ
+    command: start-dev --import-realm
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8080/health/ready" ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     volumes:
-      - ./docker/keycloak/realms/:/opt/keycloak/data/import/
+      - ./docker/keycloak/realms:/opt/keycloak/data/import
+    networks:
+      - bookstore-network
+
+
+  api-gateway:
+    image: api-gateway:latest
+    container_name: api-gateway
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+    environment:
+      - CATALOG_SERVICE_URL=http://catalog-service:8085
+      - AUTHOR_SERVICE_URL=http://author-service:8084
+      - CATEGORY_SERVICE_URL=http://category-service:8083
+      - IMAGE_SERVICE_URL=http://image-service:8082
+      - KEYCLOAK_ISSUER_URI=http://keycloak:8181/realms/e-bookstore
     depends_on:
-      - keycloak-mysql
+      - keycloak
+    networks:
+      - bookstore-network
+
+networks:
+  bookstore-network:
+    external: true
 
 volumes:
-  mysql_keycloak_data:
+  keycloak-mysql-data:
+    name: keycloak-mysql-data
