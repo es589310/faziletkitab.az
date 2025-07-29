@@ -31,6 +31,8 @@ services:
       - SPRING_DATASOURCE_USERNAME=${DB_USERNAME}
       - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRINGDOC_SWAGGER-UI_ENABLED=${SWAGGER_ENABLED}
+    env_file:
+      - .env
     depends_on:
       - postgresql
     networks:
@@ -38,7 +40,7 @@ services:
 
 networks:
   bookstore-network:
-    driver: bridge
+    external: true
 
 volumes:
   postgres_data:

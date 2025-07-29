@@ -33,10 +33,8 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 
-	//swagger open
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-ui', version: '2.8.4'
-	//#json
-	implementation group: 'org.springdoc', name: 'springdoc-openapi-starter-webmvc-api', version: '2.8.4'
+	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.8.4'
+
 
 	//mapstruct
 	implementation 'org.mapstruct:mapstruct:1.5.5.Final'
@@ -44,6 +42,8 @@ dependencies {
 
 	//.env
 	implementation 'io.github.cdimascio:java-dotenv:5.2.2'
+
+	implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
 }
 
 tasks.named('test') {
